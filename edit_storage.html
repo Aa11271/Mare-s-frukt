@@ -1,0 +1,102 @@
+<!-- app/templates/edit_storage.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S-FRUKT - Edit storage</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+
+<style>
+    body {
+            margin: 0;
+            padding: 0;
+            background-image: url('https://img2.cgtrader.com/items/4366587/209279995a/large/used-empty-warehouse-interior-8k-and-4k-textures-3d-model-209279995a.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #ffffff;
+            font-family: Arial, monospace;
+            backdrop-filter: blur(2.5px);
+        }
+    
+            button {
+                margin: 10px;
+                padding: 10px 15px;
+                background-color: #ff3b3b;
+                color: #ffffff;
+                border: 2px solid #ff3b3b;
+                border-radius: 10px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                font-size: 16px;
+                font-family: monospace;
+            }
+    
+            button:hover {
+                background-color: darkgoldenrod;
+                color: #ffffff;
+            }
+    
+            .button-container {
+                display: flex;
+                justify-content: center;
+                width: 50%;
+                max-width: 400px;
+            }
+    
+            .centered-content {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+    
+            .left-button-container {
+                position: absolute;
+                top: 10px;
+                left: 10px;
+                display: flex;
+                flex-direction: row;
+                align-items: flex-start;
+            }
+    
+            .right-button-container {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                display: flex;
+                flex-direction: row;
+                align-items: flex-end;
+            }
+    
+            .conditional-content {
+                display: none;
+            }
+    </style>
+
+<div class="left-button-container">
+    <a href="/storages"><button>Back</button></a>
+</div>
+
+<body>
+    <h1>Edit Storage</h1>
+    <form method="post" class="my-4">
+        {{ form.hidden_tag() }}
+    
+        <div class="mb-3">
+            <label for="{{ form.name.id }}" class="form-label">{{ form.name.label }}</label>
+            {{ form.name(class="form-control", id=form.name.id, placeholder="Enter storage name") }}
+        </div>
+    
+        {{ form.submit(class="btn btn-primary") }}
+    </form>
+</body>
+</html>

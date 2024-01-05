@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S-FRUKT - View Storages</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-image: url('https://img2.cgtrader.com/items/4366587/209279995a/large/used-empty-warehouse-interior-8k-and-4k-textures-3d-model-209279995a.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #ffffff;
+            font-family: Arial, monospace;
+            backdrop-filter: blur(2.5px);
+            overflow: hidden;
+            /* Prevent background from scrolling */
+        }
+
+        .left-button-container {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+
+        h1 {
+            margin-top: 20px;
+        }
+
+        .search-container {
+            width: 50%;
+            max-width: 400px;
+            margin: 20px 0;
+        }
+
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .card {
+            width: 18rem;
+            background-color: rgba(255, 255, 255, 0.2);
+            margin: 10px;
+        }
+
+        .card-body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .btn {
+            margin-top: 0px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="left-button-container">
+        <a href="login"><button class="btn btn-primary">Back</button></a>
+    </div>
+
+    <h1>Your Storages</h1>
+
+    <a href="{{ url_for('new_storage') }}" class="btn btn-success">Create Small Storage</a>
+
+    <div class="search-container input-group mb-3">
+        <input type="text" class="form-control" placeholder="Search for storage..." id="storageSearch">
+        <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button" id="searchButton">Search</button>
+        </div>
+    </div>
+
+    <div class="sort-container">
+        <button class="btn btn-primary" id="sortByName">Sort by Name</button>
+        <button class="btn btn-primary" id="sortByNumber">Sort by Number</button>
+    </div>
+
+    <div class="card-container">
+        {% for storage in storages %}
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{ storage.name }}</h5>
+                <p class="card-text">Storage ID: {{ storage.id }}</p>
+                <a href="{{ url_for('edit_storage', storage_id=storage.id) }}" class="btn btn-primary">Edit</a>
+                <a href="{{ url_for('delete_storage', storage_id=storage.id) }}" class="btn btn-danger">Delete</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        document.getElementById('searchButton').addEventListener('click', function () {
+            var searchTerm = document.getElementById('storageSearch').value.toLowerCase();
+            var cards = document.querySelectorAll('.card');
+
+            cards.forEach(function (card) {
+                var storageName = card.querySelector('.card-title').textContent.toLowerCase();
+                card.style.display = storageName.includes(searchTerm) ? 'block' : 'none';
+            });
+        });
+    </script>
+
+    <script>
+        document.getElementById('sortByName').addEventListener('click', function () {
+            var cards = document.querySelectorAll('.card');
+            var sortedCards = Array.from(cards).sort((a, b) => {
+                var nameA = a.querySelector('.card-title').textContent.toLowerCase();
+                var nameB = b.querySelector('.card-title').textContent.toLowerCase();
+                return nameA.localeCompare(nameB);
+            });
+
+            document.querySelector('.card-container').innerHTML = ''; // Clear existing cards
+            sortedCards.forEach(function (card) {
+                document.querySelector('.card-container').appendChild(card);
+            });
+        });
+
+        document.getElementById('sortByNumber').addEventListener('click', function () {
+            var cards = document.querySelectorAll('.card');
+            var sortedCards = Array.from(cards).sort((a, b) => {
+                var idA = parseInt(a.querySelector('.card-text').textContent.replace('Storage ID: ', ''));
+                var idB = parseInt(b.querySelector('.card-text').textContent.replace('Storage ID: ', ''));
+                return idA - idB;
+            });
+
+            document.querySelector('.card-container').innerHTML = ''; // Clear existing cards
+            sortedCards.forEach(function (card) {
+                document.querySelector('.card-container').appendChild(card);
+            });
+        });
+    </script>
+
+</body>
+
+</html>
